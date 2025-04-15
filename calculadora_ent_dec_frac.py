@@ -88,13 +88,18 @@ def main():
         res2 = realizar_operacion(operacion2, a2, b2)
 
         if res1 is not None and res2 is not None:
+            # Mostramos los resultados como fracción y también el decimal como referencia
             dec1 = round(float(res1), 3)
             dec2 = round(float(res2), 3)
 
-            print(Fore.CYAN + f"\nResultado 1: {a1} {operacion1} {b1} = " + Fore.LIGHTCYAN_EX + f"{res1} (≈ {dec1})")
-            print(Fore.CYAN + f"Resultado 2: {a2} {operacion2} {b2} = " + Fore.LIGHTCYAN_EX + f"{res2} (≈ {dec2})")
+            print(Fore.CYAN + f"\nResultado 1: {a1} {operacion1} {b1} = " +
+                  Fore.LIGHTCYAN_EX + f"{res1} (fracción)  " +
+                  Fore.LIGHTBLACK_EX + f"≈ {dec1} (decimal)")
+            print(Fore.CYAN + f"Resultado 2: {a2} {operacion2} {b2} = " +
+                  Fore.LIGHTCYAN_EX + f"{res2} (fracción)  " +
+                  Fore.LIGHTBLACK_EX + f"≈ {dec2} (decimal)")
 
-            comparar_resultados(dec1, dec2)
+            comparar_resultados(res1, res2)
 
 if __name__ == "__main__":
     main()
