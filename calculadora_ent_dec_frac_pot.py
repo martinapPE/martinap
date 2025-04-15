@@ -20,16 +20,29 @@ def mostrar_reseña_entrada():
     print(Fore.LIGHTGREEN_EX + "    ✔ Entero      → 4, -2")
     print(Fore.LIGHTGREEN_EX + "    ✔ Decimal     → 3.5, -0.75")
     print(Fore.LIGHTGREEN_EX + "    ✔ Fracción    → 2/3, -5/7, 7/1")
+    print(Fore.LIGHTGREEN_EX + "    ✔ Exponentes  → Usa el símbolo '^'. Ejemplo: 2^3 para 2 elevado a 3.")
     print(Fore.LIGHTWHITE_EX + "- Evita dejar espacios entre el número y el símbolo '/' en las fracciones.")
-    print(Fore.LIGHTWHITE_EX + "- El programa reconocerá automáticamente el tipo de número e interpretará correctamente la operación.\n")
+    print(Fore.LIGHTWHITE_EX + "- El programa interpretará correctamente fracciones, decimales y exponentes.\n")
+
+def interpretar_entrada(texto):
+    try:
+        if "^" in texto:
+            base, exponente = texto.split("^")
+            base_eval = eval(base.strip())
+            exponente_eval = eval(exponente.strip())
+            return Fraction(base_eval ** exponente_eval)
+        else:
+            return Fraction(eval(texto))
+    except Exception:
+        raise ValueError("Entrada inválida")
 
 def pedir_valores():
-    print(Fore.LIGHTMAGENTA_EX + "Puedes ingresar números enteros, decimales o fracciones (ej: 3, 4.5, 2/3).")
+    print(Fore.LIGHTMAGENTA_EX + "Puedes ingresar números enteros, decimales, fracciones o exponentes (ej: 3, 4.5, 2/3, 2^3).")
     try:
-        a = Fraction(input(Fore.GREEN + "Ingresa el primer número: "))
-        b = Fraction(input(Fore.GREEN + "Ingresa el segundo número: "))
+        a = interpretar_entrada(input(Fore.GREEN + "Ingresa el primer número: "))
+        b = interpretar_entrada(input(Fore.GREEN + "Ingresa el segundo número: "))
         return a, b
-    except (ValueError, ZeroDivisionError):
+    except Exception:
         print(Fore.RED + "\n⚠️  Error: Asegúrate de ingresar valores válidos.")
         return None, None
 
@@ -45,7 +58,7 @@ def realizar_operacion(op, a, b):
             print(Fore.RED + "\n⚠️  Error: No se puede dividir entre cero.")
             return None
         return a / b
-    elif op == "^":  # Para la operación de exponentes
+    elif op == "^":
         return a ** b
 
 def comparar_resultados(res1, res2):
@@ -59,7 +72,7 @@ def comparar_resultados(res1, res2):
 def main():
     while True:
         mostrar_menu()
-        mostrar_reseña_entrada()  # ← Aquí se llama la reseña
+        mostrar_reseña_entrada()
 
         operacion1 = input(Fore.CYAN + Style.BRIGHT + "\nSelecciona la primera operación (+, -, *, /, ^, x para salir): ").strip()
         if operacion1.lower() == "x":
@@ -91,7 +104,6 @@ def main():
         res2 = realizar_operacion(operacion2, a2, b2)
 
         if res1 is not None and res2 is not None:
-            # Mostramos los resultados como fracción y también el decimal como referencia
             dec1 = round(float(res1), 3)
             dec2 = round(float(res2), 3)
 
