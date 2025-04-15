@@ -1,0 +1,40 @@
+a = 7.23
+b = 6.89
+c = 2.445
+a + b + c
+print(a + b + c)
+a * b * c
+print(a * b * c)
+a / b / c
+print(a / b / c)
+a - b - c
+print(a - b - c)
+print(a + b - c)
+print(a - b + c)
+print(a * b + c)
+print(a + b * c)
+print(a * b - c)
+print(a - b * c)
+print(a / b + c)
+print(a + b / c)
+print(a / b - c)
+print(a - b / c)
+print(a + b * c)
+print(a * b + c)
+print(a * b - c)
+print(a - b * c)
+print(a / b + c)
+print(a + b / c)
+print(a / b - c)
+print(a - b / c)
+print(a + b * c)
+print(a * b + c)
+print(a * b - c)
+print(a - b * c)
+print(a / b + c)
+print(a + b / c)
+print(a / b - c)
+print(a - b / c)
+print(a + b * c)
+print(a * b + c)
+print(a * b - c)
