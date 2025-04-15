@@ -20,29 +20,28 @@ def mostrar_reseña_entrada():
     print(Fore.LIGHTGREEN_EX + "    ✔ Entero      → 4, -2")
     print(Fore.LIGHTGREEN_EX + "    ✔ Decimal     → 3.5, -0.75")
     print(Fore.LIGHTGREEN_EX + "    ✔ Fracción    → 2/3, -5/7, 7/1")
-    print(Fore.LIGHTGREEN_EX + "    ✔ Exponentes  → Usa el símbolo '^'. Ejemplo: 2^3 para 2 elevado a 3.")
+    print(Fore.LIGHTGREEN_EX + "    ✔ Exponentes  → Para ingresar un exponente usa el símbolo '^'. Ejemplo: 2^3 para 2 elevado a 3.")
     print(Fore.LIGHTWHITE_EX + "- Evita dejar espacios entre el número y el símbolo '/' en las fracciones.")
-    print(Fore.LIGHTWHITE_EX + "- El programa interpretará correctamente fracciones, decimales y exponentes.\n")
+    print(Fore.LIGHTWHITE_EX + "- El programa reconocerá automáticamente el tipo de número e interpretará correctamente la operación.\n")
 
-def interpretar_entrada(texto):
+def evaluar_entrada(cadena):
     try:
-        if "^" in texto:
-            base, exponente = texto.split("^")
-            base_eval = eval(base.strip())
-            exponente_eval = eval(exponente.strip())
-            return Fraction(base_eval ** exponente_eval)
-        else:
-            return Fraction(eval(texto))
-    except Exception:
+        if "^" in cadena:
+            base, exp = cadena.split("^")
+            base_eval = evaluar_entrada(base.strip())
+            exp_eval = evaluar_entrada(exp.strip())
+            return base_eval ** exp_eval
+        return Fraction(cadena)
+    except:
         raise ValueError("Entrada inválida")
 
 def pedir_valores():
     print(Fore.LIGHTMAGENTA_EX + "Puedes ingresar números enteros, decimales, fracciones o exponentes (ej: 3, 4.5, 2/3, 2^3).")
     try:
-        a = interpretar_entrada(input(Fore.GREEN + "Ingresa el primer número: "))
-        b = interpretar_entrada(input(Fore.GREEN + "Ingresa el segundo número: "))
+        a = evaluar_entrada(input(Fore.GREEN + "Ingresa el primer número: "))
+        b = evaluar_entrada(input(Fore.GREEN + "Ingresa el segundo número: "))
         return a, b
-    except Exception:
+    except:
         print(Fore.RED + "\n⚠️  Error: Asegúrate de ingresar valores válidos.")
         return None, None
 
@@ -59,7 +58,18 @@ def realizar_operacion(op, a, b):
             return None
         return a / b
     elif op == "^":
-        return a ** b
+        try:
+            return a ** b
+        except:
+            print(Fore.RED + "\n⚠️  Error: Potencia inválida.")
+            return None
+
+def mostrar_resultado(res, etiqueta):
+    dec = float(res)
+    if abs(dec) > 1e6 or abs(dec) < 1e-4:
+        print(Fore.CYAN + f"{etiqueta} = " + Fore.LIGHTCYAN_EX + f"≈ {dec:.6e} (decimal)")
+    else:
+        print(Fore.CYAN + f"{etiqueta} = " + Fore.LIGHTCYAN_EX + f"{res} (fracción)  ≈ {round(dec, 6)}")
 
 def comparar_resultados(res1, res2):
     if res1 > res2:
@@ -104,17 +114,11 @@ def main():
         res2 = realizar_operacion(operacion2, a2, b2)
 
         if res1 is not None and res2 is not None:
-            dec1 = round(float(res1), 3)
-            dec2 = round(float(res2), 3)
+            print()
+            mostrar_resultado(res1, f"Resultado 1: {a1} {operacion1} {b1}")
+            mostrar_resultado(res2, f"Resultado 2: {a2} {operacion2} {b2}")
 
-            print(Fore.CYAN + f"\nResultado 1: {a1} {operacion1} {b1} = " +
-                  Fore.LIGHTCYAN_EX + f"{res1} (fracción)  " +
-                  Fore.LIGHTBLACK_EX + f"≈ {dec1} (decimal)")
-            print(Fore.CYAN + f"Resultado 2: {a2} {operacion2} {b2} = " +
-                  Fore.LIGHTCYAN_EX + f"{res2} (fracción)  " +
-                  Fore.LIGHTBLACK_EX + f"≈ {dec2} (decimal)")
-
-            comparar_resultados(res1, res2)
+            comparar_resultados(float(res1), float(res2))
 
 if __name__ == "__main__":
     main()
