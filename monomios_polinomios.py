@@ -1,15 +1,23 @@
+def to_superindice(numero):
+    superi = {"0":"⁰", "1":"¹", "2":"²", "3":"³", "4":"⁴", "5":"⁵",
+              "6":"⁶", "7":"⁷", "8":"⁸", "9":"⁹", "-":"⁻"}
+    return ''.join(superi[c] for c in str(numero))
+
 def imprimir_polinomio(p):
     partes = []
     for exp in sorted(p.keys(), reverse=True):
         coef = p[exp]
         if coef == 0:
             continue
+
+        coef_str = str(int(coef)) if coef.is_integer() else str(coef)
+
         if exp == 0:
-            partes.append(f"{coef}")
+            partes.append(f"{coef_str}")
         elif exp == 1:
-            partes.append(f"{coef}x")
+            partes.append(f"{coef_str}x")
         else:
-            partes.append(f"{coef}x^{exp}")
+            partes.append(f"{coef_str}x{to_superindice(exp)}")
     return " + ".join(partes).replace("+ -", "- ")
 
 def ingresar_monomio():
@@ -25,7 +33,7 @@ def ingresar_polinomio():
         coef = float(input("  Coeficiente: "))
         exp = int(input("  Exponente: "))
         if exp in pol:
-            pol[exp] += coef  # suma si ya existe el mismo exponente
+            pol[exp] += coef
         else:
             pol[exp] = coef
     return pol
@@ -47,4 +55,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
